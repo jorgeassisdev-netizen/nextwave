@@ -1,0 +1,20 @@
+﻿{
+    "date": "2026-07-20",
+    "report_sections": [
+        {
+            "section": "Venture Capital & M&A",
+            "summary": "O mercado de SaaS B2B viu um aumento de 40% em rodadas Series A, focadas em automação.",
+            "body": "<p>Nesta semana, fundos focaram massivamente em startups que resolvem gargalos de IA B2B. Destaque para a aquisição da startup XYZ por 1B.</p><p>As valuations estabilizaram-se com foco em lucratividade ao invés de hipercrescimento.</p>"
+        },
+        {
+            "section": "Tecnologia e Inovação",
+            "summary": "Agentes autônomos substituem co-pilots em empresas Fortune 500.",
+            "body": "<p>A transição de ferramentas passivas para agentes ativos (que executam tarefas em background) está madura. O uso de LLMs menores e mais rápidos permitiu essa escalabilidade.</p>"
+        },
+        {
+            "section": "Cultura, Liderança & Execução",
+            "summary": "O fim do trabalho remoto integral em big techs impulsiona hubs locais.",
+            "body": "<p>O modelo híbrido estruturado venceu. Empresas que adotam 3 dias no escritório relatam aumento na densidade de inovações e menor burnout.</p>"
+        }
+    ]
+}

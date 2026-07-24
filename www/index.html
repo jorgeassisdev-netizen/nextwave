@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Entrepreneur News AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        .custom-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .custom-modal-content {
+            background: #0a0f12; border: 1px solid #00f0ff; border-radius: 15px;
+            padding: 20px; width: 80%; max-width: 350px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+            text-align: center;
+        }
+        .custom-modal-content h3 { color: #fff; margin-top: 0; margin-bottom: 20px; font-family: 'Space Mono', monospace; font-size: 16px; }
+        .custom-select-list { display: flex; flex-direction: column; gap: 10px; }
+        .custom-select-item {
+            background: #111a1f; color: #00f0ff; padding: 12px; border-radius: 8px;
+            cursor: pointer; transition: 0.2s; font-weight: bold; border: 1px solid transparent;
+        }
+        .custom-select-item:active { background: #00f0ff; color: #000; }
+        .color-palette { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .color-swatch { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px rgba(255,255,255,0.1); transition: 0.2s; border: 2px solid transparent;}
+        .color-swatch:active { transform: scale(0.9); border-color: #fff; }
+    </style>
+</head>
+<body>
+    
+    <!-- Fundo Abstrato (Parametric Lines) -->
+    <div class="abstract-bg-container">
+        <svg id="abstract-bg-svg" width="100%" height="100%" preserveAspectRatio="none">
+            <g id="abstract-lines-group" fill="none" stroke="rgba(147, 51, 234, 0.15)" stroke-width="1"></g>
+            <g id="abstract-lines-group-2" fill="none" stroke="rgba(0, 240, 255, 0.15)" stroke-width="1"></g>
+        </svg>
+    </div>
+
+    <div class="phone-mockup">
+        <div class="phone-screen">
+            <!-- Grade Parabólica 2D (String Art High Tech) -->
+            <div class="parabolic-grid-container">
+                <svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" class="parabolic-svg" id="parabolic-svg"></svg>
+            </div>
+            
+            <div class="gradient-overlay"></div>
+            
+            <!-- Menu Hambúrguer -->
+            <div class="menu-icon" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Menu Lateral (Sidebar) -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
+                </div>
+                <div class="sidebar-menu" style="display: flex; flex-direction: column; height: 100%;">
+                    <a href="#" class="sidebar-item" onclick="closeSidebar(); closeEcosystems(); closeWeeklyReport(); closeSocial(); openProfile()">Perfil</a>
+                    <a href="#" class="sidebar-item" onclick="closeSidebar(); closeProfile(); closeEcosystems(); closeWeeklyReport(); openSocial()">Social</a>
+                    <a href="#" class="sidebar-item" onclick="closeSidebar(); closeProfile(); closeEcosystems(); closeWeeklyReport(); closeSocial()">Notícias</a>
+                    <a href="#" class="sidebar-item" onclick="closeSidebar(); closeProfile(); closeEcosystems(); openWeeklyReport(); closeSocial()">Relatório</a>
+                    <a href="#" class="sidebar-item" onclick="closeSidebar(); closeProfile(); closeWeeklyReport(); closeSocial(); openEcosystems()">Ecossistema</a>
+
+                </div>
+            </div>
+
+            <!-- Relatório Semanal (IA) -->
+            <div class="profile-env" id="weekly-report-container" style="display: none;">
+                <!-- Formas flutuantes de fundo -->
+                <div class="weekly-bg-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+
+                <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <h2 style="margin: 0; padding-left: 40px;">Relatório Semanal</h2>
+                    <div class="history-selector" style="margin-right: 15px; margin-top: 10px;">
+                        <div class="custom-select-item" style="padding: 5px 15px; background: transparent; border: 1px solid #00f0ff; position: relative; z-index: 100;" onclick="window.openCustomSelect('report')">
+                            <span id="custom-report-display">Semana Atual</span> ▾
+                        </div>
+                    </div>
+                    <hr style="width: 100%; margin-top: 15px;">
+                </div>
+                <div class="profile-content" id="weekly-report-content" style="padding-bottom: 80px; overflow-y: auto;">
+                    <p style="color:#d0d0d0; padding:20px;">Carregando relatório estratégico...</p>
+                </div>
+            </div>
+
+            
+            <!-- Sessão Social -->
+            <div class="profile-env" id="social-container" style="display: none;">
+                <div class="profile-header">
+                    <h2>Social</h2>
+                    <hr>
+                </div>
+                <!-- Abas de Navegação -->
+                <div class="social-tabs-nav">
+                    <button class="social-tab-btn active" onclick="switchSocialTab('tab-comunidade')">Comunidade</button>
+                    <button class="social-tab-btn" onclick="switchSocialTab('tab-atividade')">Atividade</button>
+                    <button class="social-tab-btn" onclick="switchSocialTab('tab-amigos')">Amigos</button>
+                </div>
+
+                <div class="profile-content" style="padding: 20px; padding-bottom: 80px; overflow-y: auto;">
+                    
+                    <!-- Aba Comunidade -->
+                    <div id="tab-comunidade" class="social-tab-content active" style="overflow-y: hidden;">
+                        
+                        <!-- Fase 1: Onboarding (Criar ou Entrar) -->
+                        <div id="community-onboarding" class="community-onboarding">
+                            <h3 class="community-title">O ECOSISTEMA<br>COLETIVO</h3>
+                            <p class="community-subtitle">Conecte sua inteligência à de outras mentes para formar uma grande constelação de sabedoria.</p>
+                            
+                            <div class="community-actions">
+                                <div class="community-input-group">
+                                    <input type="text" placeholder="Código da Comunidade" id="community-code" class="community-input">
+                                    <button class="community-btn primary" onclick="joinCommunity()">Entrar</button>
+                                </div>
+                                
+                                <div class="community-divider"><span>OU</span></div>
+                                
+                                <button class="community-btn secondary" onclick="joinCommunity()">Criar Nova Comunidade</button>
+                            </div>
+                        </div>
+
+                        <!-- Fase 2: Ecossistema Ativo (Gráfico de Constelação) -->
+                        <div id="community-active" class="community-active" style="display: none; height: 100%; position: relative;">
+                            <div class="community-header" style="display: flex; justify-content: space-between; align-items: flex-start; padding: 20px;">
+                                <div>
+                                    <h4>Comunidade <span>Alpha</span></h4>
+                                    <span class="member-count" id="community-member-count">24 membros globais</span>
+                                </div>
+                                <div id="community-leaderboard" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 15px; min-width: 200px;">
+                                    <h5 style="margin: 0 0 10px 0; color: #fff; font-family: 'Syncopate', sans-serif; font-size: 10px; letter-spacing: 1px;">LEADERBOARD</h5>
+                                    <div id="leaderboard-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                        <!-- Injected via JS -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="collective-zoom-container">
+                                <svg id="collective-eco-svg" viewBox="0 0 1000 800" width="100%" height="100%">
+                                    <defs>
+                                        <filter id="glow-node" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="2" result="blur" />
+                                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                        </filter>
+                                    </defs>
+                                    <g id="collective-wires-group"></g>
+                                    <g id="collective-nodes-group"></g>
+                                </svg>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Aba Atividade -->
+                    <div id="tab-atividade" class="social-tab-content" style="display: none;">
+                        <div class="social-feed" id="dynamic-activity-feed">
+                            <!-- Dynamic Posts -->
+                            <div class="social-card">
+                                <div class="mini-blob-container">
+                                    <div class="mini-blob-canvas">
+                                        <div class="organic-blob mini-blob" style="background: linear-gradient(135deg, #00f0ff, #0044ff) !important;"></div>
+                                    </div>
+                                </div>
+                                <div class="social-info">
+                                    <h4>Sistema</h4>
+                                    <p>O ecossistema está vivo e se expandindo...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba Amigos -->
+                    <div id="tab-amigos" class="social-tab-content" style="display: none;">
+                        
+                        <!-- Sistema de Busca de Amigos -->
+                        <div class="friend-search-container">
+                            <div class="mini-blob-container" id="friend-search-blob" style="filter: grayscale(1) opacity(0.3); transition: all 0.5s;">
+                                <div class="mini-blob-canvas">
+                                    <div class="organic-blob mini-blob" style="background: linear-gradient(135deg, #777, #999) !important;" id="friend-search-blob-inner">
+                                        <div class="blob-accessory mini-acc acc-top" id="friend-search-acc"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4 style="font-family: 'Syncopate', sans-serif; color: #fff; margin: 15px 0 5px 0;">Adicionar Amigo</h4>
+                            
+                            <div class="community-input-group" style="width: 100%; max-width: 300px; margin: 0 auto 15px auto;">
+                                <input type="text" placeholder="Digite Nome#Tag (ex: Jorge#4503)" id="friend-search-input" class="community-input" oninput="handleFriendSearch()">
+                            </div>
+                            
+                            <button class="community-btn primary" id="btn-add-friend" onclick="addFriend()" disabled style="opacity: 0.5; cursor: not-allowed;">Adicionar</button>
+                        </div>
+
+                        <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;">
+
+                        <!-- Lista de Amigos -->
+                        <div class="friends-list" id="friends-list">
+                            <!-- Os amigos serão injetados aqui -->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Ambiente de Ecossistema (IA) -->
+            <div class="ecosystems-env" id="ecosystems-env">
+                <div class="eco-header">
+                    <h2>Seu Ecossistema</h2>
+                    <hr>
+                </div>
+                
+                <div id="eco-empty-state" class="eco-empty-state hidden">
+                    <p>O seu ecossistema está vazio.</p>
+                    <p>Mergulhe nas Notícias Diárias e conclua matérias para que as pedras de conhecimento comecem a brotar nestas águas.</p>
+                </div>
+
+                <!-- Canvas maior para scroll livre -->
+                <div id="eco-zoom-container" style="position:relative; width: 1200px; height: 1200px;">
+                    <svg id="eco-svg" class="eco-svg" viewBox="0 0 1200 1200" width="1200" height="1200">
+                        <defs>
+                            <!-- Filtro de brilho refratado e pedra profunda -->
+                            <filter id="underwater-glow" x="-400%" y="-400%" width="900%" height="900%">
+                                <!-- 1. O brilho base -->
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="glowBlur" />
+                                
+                                <!-- 2. Desfoque e escurecimento leve da própria pedra para parecer profunda -->
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="deepPebble" />
+                                <feColorMatrix type="matrix" in="deepPebble" result="darkPebble"
+                                    values="0.8 0 0 0 0
+                                            0 0.8 0 0 0
+                                            0 0 0.8 0 0
+                                            0 0 0   1 0" />
+                                
+                                <feMerge>
+                                    <feMergeNode in="glowBlur" />
+                                    <feMergeNode in="darkPebble" />
+                                </feMerge>
+                            </filter>
+                            <filter id="region-glow" x="-100%" y="-100%" width="300%" height="300%">
+                                <feGaussianBlur stdDeviation="30" result="blur" />
+                            </filter>
+                        </defs>
+                        <!-- Grupos renderizados dinamicamente -->
+                        <g id="regions-group"></g>
+                        <g id="ripples-group"></g>
+                        <g id="pebbles-group"></g>
+                </svg>
+                <!-- Popup de Info -->
+                <div class="eco-overlay-info" id="eco-overlay-info">
+                    <p id="eco-info-category" class="eco-info-cat"></p>
+                    <h4 id="eco-info-title"></h4>
+                    <button class="eco-review-btn" onclick="reviewEcosystemNews()">Revisar Notícia</button>
+                    <button class="eco-close-info" onclick="closeEcoInfo()">✕</button>
+                </div>
+            </div>
+            </div>
+
+            <!-- Ambiente do Perfil -->
+            <div class="profile-env" id="profile-env">
+                <div class="profile-header">
+                    <h2>Meu Perfil</h2>
+                    <hr>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-user-info">
+                        <div class="profile-avatar" id="profile-avatar-letter">U</div>
+                        <h3 class="profile-name" style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <span id="username-display">User Demo</span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 14px; color: rgba(255,255,255,0.4);">#4503</span>
+                            <button class="edit-name-btn" onclick="editUsername()">✎</button>
+                        </h3>
+                        <p class="profile-bio">Explorador do ecossistema de inovação e tendências globais.</p>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <span class="stat-num" id="stat-read-count">0</span>
+                            <span class="stat-label">Notícias Lidas</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num" id="stat-streak">5</span>
+                            <span class="stat-label">Dias Seguidos</span>
+                        </div>
+                        <div class="stat-box" style="position: relative; cursor: pointer;" onclick="window.openCustomSelect('status')">
+                            <span class="stat-num" id="user-status-display" style="font-size: 14px;">Bixo</span>
+                            <span class="stat-label">Status ▾</span>
+                        </div>
+                    </div>
+
+                    <h4 class="profile-section-title">Sua Wave</h4>
+                    <div class="user-wave-container">
+                        <svg id="profile-wave-svg" width="100%" height="80" viewBox="0 0 300 80" style="mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);">
+                            <!-- Paths dinâmicos renderizados no JS baseado nas categorias lidas -->
+                        </svg>
+                    </div>
+
+
+
+                    <h4 class="profile-section-title">Seu Blob</h4>
+                    <div class="blobs-container single-blob" style="margin-top:0;">
+                        <div class="blob-wrapper" style="width: 100%; max-width: 400px;">
+                            <div class="blob-canvas">
+                                <div class="organic-blob user-blob" id="user-blob">
+                                    <div id="blob-accessory" class="blob-accessory"></div>
+                                </div>
+                            </div>
+                            <div class="blob-editor">
+                                <div class="color-picker-wrap">
+                                    <div id="user-color-1" value="#00f0ff" style="width:25px; height:25px; background:#00f0ff; border-radius:50%; border: 1px solid rgba(255,255,255,0.3); cursor:pointer;" onclick="window.openCustomColor('user-color-1')"></div><input type="hidden" id="user-color-1-val" value="#00f0ff">
+                                </div>
+                                <div class="color-picker-wrap">
+                                    <div id="user-color-2" value="#aa00ff" style="width:25px; height:25px; background:#aa00ff; border-radius:50%; border: 1px solid rgba(255,255,255,0.3); cursor:pointer;" onclick="window.openCustomColor('user-color-2')"></div><input type="hidden" id="user-color-2-val" value="#aa00ff">
+                                </div>
+                            </div>
+                            
+                            <div class="accessory-drawer">
+                                <h4 style="color:#b388ff; font-family:'Syncopate', sans-serif; font-size: 10px; margin-bottom: 10px; text-transform:uppercase;">Acessórios</h4>
+                                <div class="accessory-grid">
+                                    <button class="acc-btn" onclick="equipAccessory('', 'none')" title="Remover">🚫</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎩', 'acc-top')" title="Cartola">🎩</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🧢', 'acc-top')" title="Boné">🧢</button>
+                                    <button class="acc-btn" onclick="equipAccessory('👑', 'acc-top')" title="Coroa">👑</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎓', 'acc-top')" title="Formatura">🎓</button>
+                                    <button class="acc-btn" onclick="equipAccessory('👒', 'acc-top')" title="Chapéu Feminino">👒</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🪖', 'acc-top')" title="Capacete">🪖</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🤠', 'acc-top')" title="Cowboy">🤠</button>
+                                    <button class="acc-btn" onclick="equipAccessory('👲', 'acc-top')" title="Touca/Chapéu Oriental">👲</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🧶', 'acc-top')" title="Touca de Lã">🧶</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🕶️', 'acc-center')" title="Óculos Escuros">🕶️</button>
+                                    <button class="acc-btn" onclick="equipAccessory('👓', 'acc-center')" title="Óculos de Grau">👓</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🥽', 'acc-center')" title="Goggles">🥽</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎭', 'acc-center')" title="Máscara">🎭</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎧', 'acc-side-top')" title="Fones">🎧</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🧣', 'acc-bottom')" title="Cachecol">🧣</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎀', 'acc-top-side')" title="Laço">🎀</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎒', 'acc-side-back')" title="Mochila">🎒</button>
+                                    <button class="acc-btn" onclick="equipAccessory('💼', 'acc-side-hand')" title="Maleta">💼</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🎸', 'acc-front')" title="Guitarra">🎸</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🪄', 'acc-side-hand')" title="Varinha">🪄</button>
+                                    <button class="acc-btn" onclick="equipAccessory('🛹', 'acc-floor')" title="Skate">🛹</button>
+                                    <button class="acc-btn" onclick="equipAccessory('💎', 'acc-float')" title="Diamante">💎</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="profile-logout-btn">Sair da Conta</button>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Feed de Notícias -->
+                <div class="news-feed" id="news-feed">
+                    <div class="logo-wrap">
+                        <div class="logo-text">NEXTWAVE</div>
+                    </div>
+
+                    <!-- Categorias removidas da aba superior (mantidas apenas nas tags de cada notícia) -->
+
+                    <div id="dynamic-news-container">
+                        <!-- Os cards serão injetados aqui via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Overlay dinâmico que escurece durante a descida da parábola -->
+            <div class="news-bg-overlay" id="news-bg-overlay"></div>
+
+            <!-- Botão Fechar X Fixo no Topo -->
+            <div class="top-bar-close" id="top-bar-close" onclick="closeNews()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+
+            <!-- Detalhe da Notícia (Resumo LLM) -->
+            <div class="news-detail" id="news-detail">
+                <h3 class="detail-headline" id="detail-headline"></h3>
+                <div class="detail-body" id="detail-body">
+                    <!-- Conteúdo preenchido pelo JS -->
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="reading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        // --- CONFIGURAÇÃO DE NUVEM ---
+        // Substitua pela URL bruta (raw) do seu repositório no GitHub.
+        // Exemplo: 'https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/'
+        // Se deixar vazio (''), ele tentará ler os arquivos localmente do próprio celular.
+        const CLOUD_BASE_URL = 'https://raw.githubusercontent.com/JorgeCesardeAssisNeto/nextwave-app/refs/heads/main/www/';
+        
+
+        const svg = document.getElementById('parabolic-svg');
+        let html = '';
+        const mainSteps = 35; // Um pouco mais de linhas para uma tela maior
+        
+        // Gerador de curva parabólica principal
+        for(let i = 0; i <= mainSteps; i++) {
+            html += `<line id="sa_main_l_${i}" class="grid-line string-art" />`;
+            html += `<line id="sa_main_r_${i}" class="grid-line string-art" />`;
+        }
+
+        // Paths para as ondas na base
+        html += `<path id="wave1" class="grid-line wave" d="" />`;
+        html += `<path id="wave2" class="grid-line wave minor-wave" d="" />`;
+        html += `<path id="wave3" class="grid-line wave minor-wave" d="" />`;
+        html += `<path id="wave4" class="grid-line wave minor-wave" d="" />`;
+        html += `<path id="wave5" class="grid-line wave minor-wave" d="" />`;
+        html += `<path id="wave6" class="grid-line wave minor-wave" d="" />`;
+
+        svg.innerHTML = html;
+
+        // Recuperar referências dos elementos de onda
+        const waves = [];
+        for(let i = 1; i <= 6; i++) {
+            waves.push(document.getElementById('wave' + i));
+        }
+
+        let time = 0;
+        
+        // Estado da Animação (Ambiente reativo)
+        let isAiActive = false;
+        let currentSpeed = 0.01;
+        let currentYTop = 150;
+        let currentWaveAmp = 15;
+
+        // Referências das ondas do logo removidas - nova versão CSS
+        const logoWaves = [];
+
+        function updateParabolaLines(prefix, steps, centerX, width, yBottom, yTopMin, waveAmp) {
+            for(let i = 0; i <= steps; i++) {
+                let p = i / steps;
+                
+                // LADO DIREITO
+                let xRightBase = centerX + (p * width);
+                let yRightBase = yBottom;
+                
+                let xRightTop = centerX;
+                let yRightTop = yBottom - ((1 - p) * (yBottom - yTopMin));
+
+                // LADO ESQUERDO
+                let xLeftBase = centerX - (p * width);
+                let yLeftBase = yBottom;
+                
+                let xLeftTop = centerX;
+                let yLeftTop = yBottom - ((1 - p) * (yBottom - yTopMin));
+
+                // Animação wavy fluida (amplificada para o tamanho da tela)
+                let waveBaseRight = Math.sin(xRightBase * 0.02 + time) * waveAmp;
+                let waveBaseLeft = Math.sin(xLeftBase * 0.02 + time) * waveAmp;
+                let waveTopX = Math.sin(yLeftTop * 0.01 - time) * waveAmp * 1.5;
+
+                let lLine = document.getElementById(`${prefix}_l_${i}`);
+                lLine.setAttribute('x1', xLeftBase);
+                lLine.setAttribute('y1', yLeftBase + waveBaseLeft);
+                lLine.setAttribute('x2', xLeftTop + waveTopX);
+                lLine.setAttribute('y2', yLeftTop);
+
+                let rLine = document.getElementById(`${prefix}_r_${i}`);
+                rLine.setAttribute('x1', xRightBase);
+                rLine.setAttribute('y1', yRightBase + waveBaseRight);
+                rLine.setAttribute('x2', xRightTop + waveTopX);
+                rLine.setAttribute('y2', yRightTop);
+            }
+        }
+
+        function animateWaves() {
+            // Lerp targets dependendo do estado da UI (Modo IA Ativo)
+            let targetSpeed = isAiActive ? 0.04 : 0.01; 
+            let targetYTop = isAiActive ? 750 : 150; // Parábola desce até a base
+            let targetWaveAmp = isAiActive ? 60 : 20; // Fica incrivelmente wavy durante a ação
+            
+            // Interpolação (Lerp). Bem mais lenta (0.02) para ver o movimento fluido.
+            let lerpSpeed = isAiActive ? 0.02 : 0.02;
+            currentSpeed += (targetSpeed - currentSpeed) * lerpSpeed;
+            currentYTop += (targetYTop - currentYTop) * lerpSpeed;
+            currentWaveAmp += (targetWaveAmp - currentWaveAmp) * lerpSpeed;
+
+            time += currentSpeed; 
+            
+            // Desenha a parábola usando os valores que estão sendo animados dinamicamente
+            updateParabolaLines('sa_main', mainSteps, 200, 260, 800, currentYTop, currentWaveAmp);
+
+            // 2. Gerador de ondas da base
+            function generateWave(amplitude, freq, phase, yOffset) {
+                let d = `M -20 ${yOffset}`; 
+                // Multiplicador baseado na intensidade atual da parábola
+                let currentAmp = amplitude * (currentWaveAmp / 15);
+
+                for(let x = -20; x <= 420; x += 10) {
+                    let y = yOffset + Math.sin(x * freq + phase + time) * currentAmp
+                                    + Math.sin(x * freq * 0.4 - time * 0.7) * (currentAmp * 0.6)
+                                    + Math.sin(x * freq * 0.2 + time * 0.4) * (currentAmp * 0.3);
+                    d += ` L ${x} ${y}`;
+                }
+                return d;
+            }
+
+            // Aplicando as ondas na base da tela (altura ~800)
+            waves[0].setAttribute('d', generateWave(12, 0.015, 0, 740));
+            waves[1].setAttribute('d', generateWave(8, 0.025, 2, 755));
+            waves[2].setAttribute('d', generateWave(16, 0.01, 4, 765));
+            waves[3].setAttribute('d', generateWave(10, 0.03, 1, 775));
+            waves[4].setAttribute('d', generateWave(6, 0.035, 3, 785));
+            waves[5].setAttribute('d', generateWave(14, 0.01, 5, 795));
+
+            // Animando o logotipo (Estilo Audio Waveform / Assistente de Voz)
+            // Velocidade l_time reduzida para deixar mais macio
+            let l_time = time * 0.9; 
+            
+            // Gerador de linha de onda de áudio suave
+            function generateAudioWave(freq, speed, ampMod, phase) {
+                let d = `M 0 40`;
+                
+                // O pico da bolha (envelope direcional) ainda é orgânico e passeia da esquerda pro meio!
+                let peakX = 35 + Math.sin(l_time * 0.4 + phase) * 12 + Math.sin(l_time * 0.9 + phase * 1.5) * 8;
+
+                for (let x = 0; x <= 120; x += 3) {
+                    // Normaliza o eixo X focando no pico deslocado (peakX)
+                    let nx = x < peakX ? (x - peakX) / peakX : (x - peakX) / (120 - peakX);
+                    
+                    // Hanning Window: achata as pontas e dá amplitude máxima ao pico
+                    let envelope = Math.pow(Math.cos(nx * Math.PI / 2), 2); 
+                    
+                    let currentAmp = ampMod * envelope;
+                    
+                    // Sinal retificado (módulo absoluto). 
+                    let signal = Math.sin(x * freq + l_time * speed + phase) * currentAmp;
+                    let y = 40 - Math.abs(signal);
+                    
+                    d += ` L ${x} ${y}`;
+                }
+                return d;
+            }
+            // Lógica antiga do logo removida
+            requestAnimationFrame(animateWaves);
+        }
+        
+        animateWaves();
+
+        // Dados das notícias
+        let newsData = [];
+
+        function renderFeed() {
+            const container = document.getElementById('dynamic-news-container');
+            container.innerHTML = '';
+            
+            if (newsData.length === 0) {
+                container.innerHTML = '<div style="color: #fff; text-align:center; margin-top: 50px;">Nenhuma notícia encontrada.<br><br>Execute o script fetch_news.py para gerar o feed usando a IA!</div>';
+                return;
+            }
+
+            newsData.forEach((news, index) => {
+                // Se a categoria estiver oculta, não renderiza
+                if (typeof hiddenCategories !== "undefined" && hiddenCategories.has(news.categoria)) return;
+
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                card.onclick = () => openNews(index);
+
+                const tag = document.createElement('div');
+                tag.className = 'news-tag';
+                tag.style.color = news.color;
+                tag.style.borderColor = news.color;
+                tag.innerText = news.categoria;
+
+                const headline = document.createElement('h3');
+                headline.className = 'news-headline';
+                headline.innerText = news.headline;
+
+                const meta = document.createElement('p');
+                meta.className = 'news-meta';
+                const dateText = news.date ? `Data: ${new Date(news.date).toLocaleDateString('pt-BR')} • ` : '';
+                meta.innerText = dateText + 'Inteligência Artificial • Resumo Analítico';
+
+                card.appendChild(tag);
+                card.appendChild(headline);
+                card.appendChild(meta);
+
+                container.appendChild(card);
+            });
+        }
+
+        // Fetch dinâmico
+        fetch(CLOUD_BASE_URL + 'news_data.json?t=' + new Date().getTime(), { cache: 'no-store' })
+            .then(response => {
+                if (!response.ok) throw new Error('Falha ao carregar JSON');
+                return response.json();
+            })
+            .then(data => {
+                newsData = data;
+                renderFeed();
+                if(typeof renderEcosystemPebbles === 'function') renderEcosystemPebbles();
+            })
+            .catch(error => {
+                console.warn('Arquivo news_data.json não encontrado. Mostrando fallback vazio.', error);
+                renderFeed();
+            });
+
+
+        let currentNewsIndex = null;
+        let isSidebarOpen = false;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            isSidebarOpen = !isSidebarOpen;
+            if (isSidebarOpen) {
+                sidebar.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
+            }
+        }
+
+        function closeSidebar() {
+            isSidebarOpen = false;
+            document.getElementById('sidebar').classList.remove('open');
+        }
+
+        // Coordenadas ajustadas para um mapa um pouco mais compacto (1200x1200)
+        const categoryCenters = {
+            'Investimentos e VCs': {x: 600, y: 600}, // Centro
+            'Fintechs': {x: 400, y: 400},
+            'Inovação': {x: 800, y: 400},
+            'Ecossistema': {x: 400, y: 800},
+            'Fusões e Aquisições': {x: 800, y: 800},
+            'IA e Tech': {x: 600, y: 250}
+        };
+
+        let activeEcoNewsIndex = null;
+        let lastReadCenter = {x: 600, y: 600};
+        let currentZoom = 1;
+
+        
+        // CUSTOM PICKERS LOGIC
+        let activeSelectTarget = null;
+        window.openCustomSelect = openCustomSelect;
+        window.closeCustomSelect = closeCustomSelect;
+        window.openCustomColor = openCustomColor;
+        window.closeCustomColor = closeCustomColor;
+        window.selectColor = selectColor;
+        function openCustomSelect(type) {
+            const modal = document.getElementById('custom-select-modal');
+            const title = document.getElementById('custom-select-title');
+            const list = document.getElementById('custom-select-options');
+            list.innerHTML = '';
+            
+            if (type === 'status') {
+                title.innerText = 'Selecione seu Status';
+                const options = ['Bixo', 'Membro', 'Membro-Sênior', 'Diretor', 'Vice-Presidente', 'Presidente'];
+                options.forEach(opt => {
+                    const div = document.createElement('div');
+                    div.className = 'custom-select-item';
+                    div.innerText = opt;
+                    div.onclick = () => {
+                        document.getElementById('user-status-display').innerText = opt;
+                        localStorage.setItem('userStatus', opt);
+                        closeCustomSelect();
+                    };
+                    list.appendChild(div);
+                });
+            } else if (type === 'report') {
+                title.innerText = 'Relatório Semanal';
+                const options = [{v:'latest', l:'Semana Atual'}];
+                options.forEach(opt => {
+                    const div = document.createElement('div');
+                    div.className = 'custom-select-item';
+                    div.innerText = opt.l;
+                    div.onclick = () => {
+                        document.getElementById('custom-report-display').innerText = opt.l;
+                        if(typeof loadHistoricalReport === 'function') loadHistoricalReport(opt.v);
+                        closeCustomSelect();
+                    };
+                    list.appendChild(div);
+                });
+            }
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+        function closeCustomSelect() { 
+            const m = document.getElementById('custom-select-modal');
+            m.classList.remove('active');
+            setTimeout(() => m.style.display = 'none', 300);
+        }
+        
+        let activeColorTarget = null;
+        function openCustomColor(targetId) {
+            activeColorTarget = targetId;
+            const m = document.getElementById('custom-color-modal');
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('active'), 10);
+        }
+        function closeCustomColor() { 
+            const m = document.getElementById('custom-color-modal');
+            m.classList.remove('active');
+            setTimeout(() => m.style.display = 'none', 300);
+        }
+        function selectColor(hex) {
+            if(activeColorTarget) {
+                const el = document.getElementById(activeColorTarget);
+                if(el) {
+                    el.setAttribute('value', hex);
+                    el.style.backgroundColor = hex;
+                    
+                    // Se for o color 1 ou 2, chama updateUserBlob
+                    if(activeColorTarget === 'user-color-1') {
+                        document.getElementById('user-color-1-val').value = hex;
+                    }
+                    if(activeColorTarget === 'user-color-2') {
+                        document.getElementById('user-color-2-val').value = hex;
+                    }
+                    if(typeof updateUserBlob === 'function') updateUserBlob();
+                }
+            }
+            closeCustomColor();
+        }
+
+        function openEcosystems() {
+            renderEcosystemPebbles();
+            document.getElementById('ecosystems-env').classList.add('active');
+            document.getElementById('news-feed').classList.add('hidden');
+            document.getElementById('profile-env').classList.remove('active');
+            
+            const ecoEnv = document.getElementById('ecosystems-env');
+            const hasReadNews = newsData.some(n => n.read);
+            
+            if (!hasReadNews) {
+                // Se está vazio, mantemos a câmera no topo para a mensagem ficar perfeitamente centralizada
+                ecoEnv.scrollLeft = 0;
+                ecoEnv.scrollTop = 0;
+            } else {
+                // Smart Zoom: Bounding Box framing
+                let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                newsData.forEach(news => {
+                    if (news.read && news.pebbleData) {
+                        minX = Math.min(minX, news.pebbleData.cx);
+                        minY = Math.min(minY, news.pebbleData.cy);
+                        maxX = Math.max(maxX, news.pebbleData.cx);
+                        maxY = Math.max(maxY, news.pebbleData.cy);
+                    }
+                });
+
+                // Adiciona margem de respiro ao redor das pedras (padding)
+                const padding = 150; 
+                const boxWidth = (maxX - minX) + padding * 2;
+                const boxHeight = (maxY - minY) + padding * 2;
+                
+                // Calcula o zoom ideal para que o Bounding Box preencha a tela
+                const zoomX = ecoEnv.clientWidth / (boxWidth || 1);
+                const zoomY = ecoEnv.clientHeight / (boxHeight || 1);
+                
+                // Mantemos o zoom entre os limites permitidos
+                currentZoom = Math.min(zoomX, zoomY);
+                currentZoom = Math.max(0.4, Math.min(currentZoom, 2.5));
+
+                // Aplica o zoom nas dimensões reais do mapa
+                const newSize = 1200 * currentZoom;
+                const ecoZoomContainer = document.getElementById('eco-zoom-container');
+                const ecoSvg = document.getElementById('eco-svg');
+                ecoZoomContainer.style.width = newSize + 'px';
+                ecoZoomContainer.style.height = newSize + 'px';
+                ecoSvg.setAttribute('width', newSize);
+                ecoSvg.setAttribute('height', newSize);
+                
+                // Centraliza a visão perfeitamente no meio geométrico das pedras ativas
+                const centerX = (minX + maxX) / 2;
+                const centerY = (minY + maxY) / 2;
+                
+                ecoEnv.scrollLeft = Math.max(0, (centerX * currentZoom) - (ecoEnv.clientWidth / 2));
+                ecoEnv.scrollTop = Math.max(0, (centerY * currentZoom) - (ecoEnv.clientHeight / 2));
+            }
+        }
+
+        function closeEcosystems() {
+            document.getElementById('ecosystems-env').classList.remove('active');
+            document.getElementById('news-feed').classList.remove('hidden');
+            closeEcoInfo();
+        }
+
+        let userStreak = parseInt(localStorage.getItem('userStreak')) || 0;
+        let username = "User Demo";
+
+        function showCustomModal(title, defaultValue, placeholder, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('custom-modal-title');
+            const inputEl = document.getElementById('custom-modal-input');
+            const confirmBtn = document.getElementById('custom-modal-confirm');
+            
+            titleEl.innerText = title;
+            inputEl.value = defaultValue;
+            inputEl.placeholder = placeholder;
+            
+            modal.classList.add('active');
+            inputEl.focus();
+            
+            confirmBtn.onclick = function() {
+                const val = inputEl.value;
+                if (val && val.trim() !== "") {
+                    onConfirm(val.trim());
+                    closeCustomModal();
+                }
+            };
+        }
+        
+        function closeCustomModal() {
+            document.getElementById('custom-modal').classList.remove('active');
+        }
+
+        function editUsername() {
+            showCustomModal("Digite seu novo nome de usuário:", username, "Nome de usuário", function(newName) {
+                username = newName;
+                document.getElementById('username-display').innerText = username;
+                document.getElementById('profile-avatar-letter').innerText = username.charAt(0).toUpperCase();
+            });
+        }
+
+        function togglePreferences() {
+            const panel = document.getElementById('preferences-panel');
+            const arrow = document.getElementById('pref-arrow');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                arrow.classList.add('open');
+            } else {
+                panel.classList.add('hidden');
+                arrow.classList.remove('open');
+            }
+        }
+
+        function openProfile() {
+            document.getElementById('profile-env').classList.add('active');
+            document.getElementById('news-feed').classList.add('hidden');
+            document.getElementById('ecosystems-env').classList.remove('active');
+            
+            // Atualizar stats de leitura e streak
+            const readCount = newsData.filter(n => n.read).length;
+            document.getElementById('stat-read-count').innerText = readCount;
+            document.getElementById('stat-streak').innerText = userStreak;
+        }
+
+        function closeProfile() {
+            document.getElementById('profile-env').classList.remove('active');
+            document.getElementById('news-feed').classList.remove('hidden');
+        }
+        
+        function openSocial() {
+            document.getElementById('social-container').style.display = 'block';
+            document.getElementById('social-container').classList.add('active');
+            document.getElementById('news-feed').classList.add('hidden');
+            document.getElementById('ecosystems-env').classList.remove('active');
+            document.getElementById('profile-env').classList.remove('active');
+            closeWeeklyReport();
+        }
+        
+        function closeSocial() {
+            document.getElementById('social-container').style.display = 'none';
+            document.getElementById('social-container').classList.remove('active');
+        }
+
+        // --- LÓGICA DA SESSÃO SOCIAL E BLOBS ---
+        function switchSocialTab(tabId) {
+            // Oculta todos os conteúdos
+            const contents = document.querySelectorAll('.social-tab-content');
+            contents.forEach(el => el.style.display = 'none');
+            contents.forEach(el => el.classList.remove('active'));
+            
+            // Remove active dos botões
+            const btns = document.querySelectorAll('.social-tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            // Mostra a aba selecionada
+            document.getElementById(tabId).style.display = 'block';
+            setTimeout(() => { document.getElementById(tabId).classList.add('active'); }, 10);
+            
+            // Marca o botão clicado
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- SISTEMA SOCIAL & LEADERBOARD (MOCK BACKEND) ---
+        // Recupera ou inicializa a pontuação do usuário e dos amigos
+        window.userScore = parseInt(localStorage.getItem('userScore')) || 0;
+        window.userStreak = parseInt(localStorage.getItem('userStreak')) || 0;
+        
+        let todayDate = new Date().toISOString().split('T')[0];
+        let lastReadDate = localStorage.getItem('lastReadDate');
+
+        if (lastReadDate !== todayDate) {
+            window.userScore = 0;
+            localStorage.setItem('userScore', 0);
+            
+            if (lastReadDate) {
+                let last = new Date(lastReadDate);
+                let today = new Date(todayDate);
+                let diffTime = Math.abs(today.getTime() - last.getTime());
+                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                if (diffDays > 1) {
+                    window.userStreak = 0;
+                    localStorage.setItem('userStreak', 0);
+                }
+            }
+        }
+        
+        let savedFriends = localStorage.getItem('friendsData');
+        if (savedFriends) {
+            window.friendsData = JSON.parse(savedFriends);
+        } else {
+            // Inicializa com alguns bots para a comunidade não parecer vazia
+            window.friendsData = {
+                'sys-anon': { name: 'Empreendedor Anon', score: 45, news: [] },
+                'sys-founder': { name: 'Startup Founder', score: 120, news: [] },
+                'sys-tech': { name: 'Tech Innovator', score: 78, news: [] }
+            };
+            localStorage.setItem('friendsData', JSON.stringify(window.friendsData));
+        }
+
+        function incrementUserScore() {
+            let todayDate = new Date().toISOString().split('T')[0];
+            let lastReadDate = localStorage.getItem('lastReadDate');
+            
+            if (lastReadDate !== todayDate) {
+                window.userStreak++;
+                localStorage.setItem('userStreak', window.userStreak);
+                localStorage.setItem('lastReadDate', todayDate);
+            }
+
+            window.userScore++;
+            localStorage.setItem('userScore', window.userScore);
+            renderLeaderboard();
+            addActivityPost("Você", "Acaba de absorver um novo conhecimento estratégico.", true);
+            if (typeof renderCollectiveEcosystem === 'function') renderCollectiveEcosystem();
+            if (typeof renderEcosystemPebbles === 'function') renderEcosystemPebbles();
+        }
+
+        function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            if (!leaderboardList) return;
+            
+            // Monta o array de usuários
+            let users = [ { name: 'Você', score: window.userScore, isMe: true } ];
+            for (const [id, data] of Object.entries(window.friendsData)) {
+                users.push({ name: data.name, score: data.score || 0, isMe: false });
+            }
+            
+            // Ordena pelo maior score
+            users.sort((a, b) => b.score - a.score);
+            
+            let html = '';
+            users.slice(0, 10).forEach((u, idx) => {
+                const color = u.isMe ? '#00f0ff' : '#d0d0d0';
+                const bg = u.isMe ? 'rgba(0, 240, 255, 0.1)' : 'transparent';
+                const border = u.isMe ? '1px solid rgba(0, 240, 255, 0.3)' : '1px solid transparent';
+                html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; background: ${bg}; border: ${border}; border-radius: 6px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: rgba(255,255,255,0.5); font-size: 11px; font-weight: bold; width: 15px;">#${idx+1}</span>
+                        <span style="color: ${color}; font-size: 13px; font-weight: ${u.isMe ? 'bold' : 'normal'};">${u.name}</span>
+                    </div>
+                    <span style="color: #fff; font-size: 12px; font-weight: bold;">${u.score} <span style="font-size: 9px; color: rgba(255,255,255,0.5); font-weight: normal;">pts</span></span>
+                </div>
+                `;
+            });
+            leaderboardList.innerHTML = html;
+        }
+
+        function addActivityPost(username, message, isMe) {
+            const feed = document.getElementById('dynamic-activity-feed');
+            if (!feed) return;
+            
+            const color1 = isMe ? localStorage.getItem('userBlobColor1') || '#00f0ff' : '#ff9a9e';
+            const color2 = isMe ? localStorage.getItem('userBlobColor2') || '#0044ff' : '#fecfef';
+            
+            const post = document.createElement('div');
+            post.className = 'social-card';
+            post.innerHTML = `
+                <div class="mini-blob-container ${isMe ? 'user-mini-blob' : ''}">
+                    <div class="mini-blob-canvas">
+                        <div class="organic-blob mini-blob" style="background: linear-gradient(135deg, ${color1}, ${color2}) !important;"></div>
+                    </div>
+                </div>
+                <div class="social-info">
+                    <h4>${username}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            // Add to the top
+            feed.insertBefore(post, feed.firstChild);
+            
+            // Limit to 20 posts
+            while (feed.children.length > 20) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        function addFriend() {
+            const input = document.getElementById('friend-search-input');
+            const rawName = input.value.trim();
+            if(!rawName) return;
+
+            const nameParts = rawName.split('#');
+            const friendName = nameParts[0].trim();
+
+            if (!friendName) return;
+
+            // Previne duplicados
+            if (window.friendsData) {
+                for (const data of Object.values(window.friendsData)) {
+                    if (data.name.toLowerCase() === friendName.toLowerCase()) {
+                        alert('Você já possui uma conexão neural com ' + friendName + '!');
+                        return;
+                    }
+                }
+            }
+            
+            const id = 'friend-' + Date.now();
+            // Score aleatório para o novo amigo entre 10 e 150
+            const randomScore = Math.floor(Math.random() * 140) + 10;
+            
+            window.friendsData[id] = { name: friendName, score: randomScore, news: [] };
+            localStorage.setItem('friendsData', JSON.stringify(window.friendsData));
+            
+            input.value = '';
+            document.getElementById('btn-add-friend').disabled = true;
+            document.getElementById('btn-add-friend').style.opacity = '0.5';
+            document.getElementById('btn-add-friend').style.cursor = 'not-allowed';
+            
+            renderFriendsList();
+            renderLeaderboard();
+            if (typeof renderCollectiveEcosystem === 'function') renderCollectiveEcosystem();
+
+            alert(friendName + ' foi integrado à sua rede social neural!');
+        }
+
+        function renderFriendsList() {
+            const list = document.getElementById('friends-list');
+            if (!list) return;
+            
+            let html = '';
+            for (const [id, data] of Object.entries(window.friendsData)) {
+                if (id.startsWith('sys-')) continue; // Não lista os bots do sistema na aba amigos
+                html += `
+                <div class="friend-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div class="mini-blob-container">
+                            <div class="mini-blob-canvas">
+                                <div class="organic-blob mini-blob" style="background: linear-gradient(135deg, #777, #aa00ff) !important;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; color: #fff;">${data.name}</h4>
+                            <span style="font-size: 11px; color: rgba(255,255,255,0.5);">Poder do Ecossistema: ${data.score} pts</span>
+                        </div>
+                    </div>
+                    <button class="btn-view-eco" onclick="viewFriendEcosystem('${id}')" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3); color: #00f0ff; padding: 6px 12px; border-radius: 20px; font-size: 11px; cursor: pointer; transition: all 0.3s;">Ver Ecossistema</button>
+                </div>
+                `;
+            }
+            if (html === '') {
+                html = '<p style="color: rgba(255,255,255,0.5); text-align: center;">Nenhuma conexão neural estabelecida ainda.</p>';
+            }
+            list.innerHTML = html;
+        }
+
+        // Inicializa ao abrir
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLeaderboard();
+            renderFriendsList();
+        });
+
+        function joinCommunity() {
+            document.getElementById('community-onboarding').style.display = 'none';
+            document.getElementById('community-active').style.display = 'flex';
+            renderCollectiveEcosystem();
+        }
+
+        function renderCollectiveEcosystem() {
+            const nodesGroup = document.getElementById('collective-nodes-group');
+            const wiresGroup = document.getElementById('collective-wires-group');
+            if (!nodesGroup || !wiresGroup) return;
+            
+            nodesGroup.innerHTML = '';
+            wiresGroup.innerHTML = ''; // Sem fios agora
+            
+            const width = 1000;
+            const height = 800;
+            let nodesHtml = '';
+            
+            function createPebbles(count, color) {
+                let html = '';
+                for(let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = (Math.random() * Math.random()) * 400; 
+                    const x = width/2 + Math.cos(angle) * radius;
+                    const y = height/2 + Math.sin(angle) * (radius * 0.7);
+                    
+                    const r = Math.random() * 4 + 2;
+                    const driftX = (Math.random() - 0.5) * 20;
+                    const driftY = (Math.random() - 0.5) * 20;
+                    const dur = 4 + Math.random() * 6;
+                    
+                    html += `
+                    <circle cx="${x}" cy="${y}" r="${r}" style="fill: ${color}; ">
+                        <animate attributeName="cx" values="${x};${x + driftX};${x}" dur="${dur}s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="${y};${y + driftY};${y}" dur="${dur}s" repeatCount="indefinite" />
+                        <animate attributeName="r" values="${r};${r*1.5};${r}" dur="${dur*0.8}s" repeatCount="indefinite" />
+                    </circle>`;
+                }
+                return html;
+            }
+
+            // User pebbles
+            const userColor = localStorage.getItem('userBlobColor1') || '#00f0ff';
+            const userPebbleCount = window.userScore || 0;
+            nodesHtml += createPebbles(userPebbleCount, userColor);
+
+            // Friends pebbles
+            const friendColors = ['#aa00ff', '#ff003c', '#00ffaa', '#ffaa00', '#fbc2eb'];
+            let colorIdx = 0;
+            
+            if (window.friendsData) {
+                for (const [id, data] of Object.entries(window.friendsData)) {
+                    const friendColor = friendColors[colorIdx % friendColors.length];
+                    const friendPebbleCount = data.score || 0;
+                    nodesHtml += createPebbles(friendPebbleCount, friendColor);
+                    colorIdx++;
+                }
+            }
+            
+            nodesGroup.innerHTML = nodesHtml;
+            
+            // Update member count
+            const memberCountEl = document.getElementById('community-member-count');
+            if (memberCountEl && window.friendsData) {
+                const totalMembers = Object.keys(window.friendsData).length + 1;
+                memberCountEl.innerText = totalMembers + ' mentes conectadas';
+            }
+        }
+
+        function updateUserBlob() {
+            const color1 = document.getElementById('user-color-1-val').value;
+            const color2 = document.getElementById('user-color-2-val').value;
+            const userBlob = document.getElementById('user-blob');
+            
+            const gradient = `linear-gradient(135deg, ${color1}, ${color2})`;
+            
+            if (userBlob) {
+                userBlob.style.background = gradient;
+            }
+            
+            // Sincroniza todos os mini-blobs que representam o usuário
+            const miniBlobs = document.querySelectorAll('.user-mini-blob .mini-blob');
+            miniBlobs.forEach(blob => {
+                blob.style.background = gradient;
+            });
+            
+            // Salvar no localStorage
+            localStorage.setItem('userBlobColor1', color1);
+            localStorage.setItem('userBlobColor2', color2);
+        }
+
+        function equipAccessory(emoji, positionClass) {
+            const accContainer = document.getElementById('blob-accessory');
+            const miniAccContainers = document.querySelectorAll('.user-mini-blob .mini-acc');
+            
+            // Limpa o acessório se receber string vazia
+            if (!emoji) {
+                if(accContainer) {
+                    accContainer.innerText = '';
+                    accContainer.className = 'blob-accessory'; // reseta classe
+                }
+                miniAccContainers.forEach(container => {
+                    container.innerText = '';
+                    container.className = 'blob-accessory mini-acc';
+                });
+                localStorage.removeItem('userBlobAccEmoji');
+                localStorage.removeItem('userBlobAccClass');
+                return;
+            }
+
+            if(accContainer) {
+                accContainer.innerText = emoji;
+                accContainer.className = `blob-accessory ${positionClass}`;
+            }
+            
+            miniAccContainers.forEach(container => {
+                container.innerText = emoji;
+                container.className = `blob-accessory mini-acc ${positionClass}`;
+            });
+            
+            // Salvar no localStorage
+            localStorage.setItem('userBlobAccEmoji', emoji);
+            localStorage.setItem('userBlobAccClass', positionClass);
+        }
+
+        // --- SISTEMA DE AMIGOS ---
+        function handleFriendSearch() {
+            const input = document.getElementById('friend-search-input').value;
+            const blobContainer = document.getElementById('friend-search-blob');
+            const blobInner = document.getElementById('friend-search-blob-inner');
+            const btn = document.getElementById('btn-add-friend');
+            const acc = document.getElementById('friend-search-acc');
+            
+            // Simulação: se tiver '#' no input, achou o amigo
+            if (input.includes('#') && input.length > 3) {
+                blobContainer.style.filter = 'grayscale(0) opacity(1)';
+                blobInner.style.background = 'linear-gradient(135deg, #00f0ff, #aa00ff)'; // Cor aleatória do amigo
+                acc.innerText = '🧢'; // Acessório do amigo
+                
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            } else {
+                blobContainer.style.filter = 'grayscale(1) opacity(0.3)';
+                blobInner.style.background = 'linear-gradient(135deg, #777, #999)';
+                acc.innerText = '';
+                
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+            }
+        }
+
+
+function addFriend() {
+    const input = document.getElementById('friend-search-input');
+    const friendId = input.value.trim();
+    if (!friendId) return;
+    if (friendId.includes('#') && friendId.length > 3) {
+        const friendName = friendId.split('#')[0].trim() || 'Novo Amigo';
+        const alreadyExists = Object.values(window.friendsData).some(f => f.name === friendName);
+        if (alreadyExists) {
+            alert('Você já adicionou esse amigo!');
+            return;
+        }
+        const newFriendKey = 'friend-' + Date.now();
+        window.friendsData[newFriendKey] = {
+            name: friendName,
+            score: Math.floor(Math.random() * 50) + 10,
+            news: []
+        };
+        localStorage.setItem('friendsData', JSON.stringify(window.friendsData));
+        renderSocialList();
+        if (typeof renderCollectiveEcosystem === 'function') renderCollectiveEcosystem();
+        input.value = '';
+        handleFriendSearch();
+    }
+}
+        function viewFriendEcosystem(friendName) {
+            closeSocial();
+            closeProfile();
+            
+            const ecoEnv = document.getElementById('ecosystems-env');
+            ecoEnv.classList.add('active');
+            document.getElementById('news-feed').classList.add('hidden');
+            
+            // Modificar o título simulando o ecossistema do amigo
+            const headerTitle = ecoEnv.querySelector('h2');
+            if (headerTitle) {
+                headerTitle.innerText = "Ecossistema de " + friendName;
+            }
+            
+            // Esconde estado vazio e exibe o mapa (usando a mesma lógica atual)
+            document.getElementById('eco-empty-state').classList.add('hidden');
+            document.getElementById('eco-canvas-container').classList.remove('hidden');
+            if(typeof renderEcosystemPebbles === 'function') renderEcosystemPebbles(friendName);
+        }
+
+        function updateUserStatus() {
+            const status = document.getElementById('user-status-select').value;
+            const display = document.getElementById('user-status-display');
+            if(display) display.innerText = status;
+            localStorage.setItem('userStatus', status);
+        }
+
+        // Carregar configurações do usuário ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedColor1 = localStorage.getItem('userBlobColor1');
+            const savedColor2 = localStorage.getItem('userBlobColor2');
+            const savedAccEmoji = localStorage.getItem('userBlobAccEmoji');
+            const savedAccClass = localStorage.getItem('userBlobAccClass');
+            
+            if(savedColor1) document.getElementById('user-color-1-val').value = savedColor1;
+            if(savedColor2) document.getElementById('user-color-2-val').value = savedColor2;
+            
+            updateUserBlob();
+
+            if(savedAccEmoji && savedAccClass) {
+                equipAccessory(savedAccEmoji, savedAccClass);
+            }
+            
+            const savedStatus = localStorage.getItem('userStatus');
+            if (savedStatus) {
+                const sel = document.getElementById('user-status-select');
+                if(sel) sel.value = savedStatus;
+                const disp = document.getElementById('user-status-display');
+                if(disp) disp.innerText = savedStatus;
+            }
+        });
+
+        function openWeeklyReport() {
+            document.getElementById('weekly-report-container').style.display = 'block';
+            document.getElementById('weekly-report-container').classList.add('active');
+            document.getElementById('news-feed').classList.add('hidden');
+            document.getElementById('ecosystems-env').classList.remove('active');
+            document.getElementById('profile-env').classList.remove('active');
+            // Carrega a lista de relatórios históricos primeiro
+            fetch(CLOUD_BASE_URL + 'reports_archive/index.json?t=' + new Date().getTime(), { cache: 'no-store' })
+                .then(response => response.ok ? response.json() : [])
+                .then(indexData => {
+                    let select = document.getElementById('report-history-select');
+                    if (indexData && indexData.length > 0) {
+                        // Reseta as opções, mantendo a 'Semana Atual'
+                        select.innerHTML = '<option value="latest">Semana Atual</option>';
+                        indexData.forEach(item => {
+                            let option = document.createElement('option');
+                            option.value = item.file;
+                            option.textContent = item.title;
+                            select.appendChild(option);
+                        });
+                    }
+                })
+                .catch(err => console.log('Índice de relatórios não encontrado.', err));
+                
+            // Carrega o JSON da semana atual
+            fetch(CLOUD_BASE_URL + 'weekly_report.json?t=' + new Date().getTime(), { cache: 'no-store' })
+                .then(response => response.json())
+                .then(data => {
+                    renderWeeklyReportData(data);
+                })
+                .catch(error => {
+                    document.getElementById('weekly-report-content').innerHTML = '<p style="color:#ff003c; padding:20px;">Relatório semanal não gerado ainda.</p>';
+                });
+        }
+        
+        function loadHistoricalReport(fileUrl) {
+            document.getElementById('weekly-report-content').innerHTML = '<p style="color:#d0d0d0; padding:20px;">Carregando relatório estratégico...</p>';
+            let targetUrl = fileUrl === 'latest' ? 'weekly_report.json' : fileUrl;
+            
+            fetch(CLOUD_BASE_URL + targetUrl + '?t=' + new Date().getTime(), { cache: 'no-store' })
+                .then(response => response.json())
+                .then(data => {
+                    renderWeeklyReportData(data);
+                })
+                .catch(error => {
+                    document.getElementById('weekly-report-content').innerHTML = '<p style="color:#ff003c; padding:20px;">Erro ao carregar o relatório histórico.</p>';
+                });
+        }
+        
+        function renderWeeklyReportData(data) {
+                    if(data.report_sections && data.report_sections.length > 0) {
+                        let html = '<div class="trail-wrapper" id="trail-wrapper">';
+                        html += '<svg class="trail-svg" id="trail-svg"></svg>';
+                        
+                        window.weeklyReportData = data.report_sections;
+                        
+                        data.report_sections.forEach((sec, idx) => {
+                            let side = (idx % 2 === 0) ? 'left' : 'right';
+                            html += `
+                            <div class="trail-item ${side}" id="trail-item-${idx}">
+                                <div class="trail-dot" id="trail-dot-${idx}"></div>
+                                <div class="trail-content">
+                                    <h3>${sec.section}</h3>
+                                    <p>${sec.summary ? sec.summary : 'Clique para ler a análise completa desta seção.'}</p>
+                                    <button class="read-more-btn" onclick="readWeeklySection(${idx})">Ler Análise</button>
+                                </div>
+                            </div>`;
+                        });
+                        html += '<p style="text-align:center; font-size: 10px; color: #555; margin-top:40px; font-family:\'Mulish\', sans-serif;">Gerado por IA Gemini em: ' + data.date + '</p>';
+                        html += '</div>';
+                        document.getElementById('weekly-report-content').innerHTML = html;
+                        
+                        window.currentReportSectionsCount = data.report_sections.length;
+                        
+                        // Desenhar a curva SVG após renderizar
+                        setTimeout(() => drawTrailCurve(data.report_sections.length), 100);
+                    } else if (data.report_html) {
+                        // fallback se ainda estiver no formato antigo ou usar o roteiro novo (HTML unificado)
+                        document.getElementById('weekly-report-content').innerHTML = data.report_html;
+                    }
+        }
+        
+        window.addEventListener('resize', () => {
+            if (document.getElementById('weekly-report-container').classList.contains('active') && window.currentReportSectionsCount) {
+                drawTrailCurve(window.currentReportSectionsCount);
+            }
+        });
+        
+        function drawTrailCurve(count) {
+            const svg = document.getElementById('trail-svg');
+            const wrapper = document.getElementById('trail-wrapper');
+            if(!svg || !wrapper) return;
+            
+            // set SVG height to match wrapper
+            svg.setAttribute('width', wrapper.offsetWidth);
+            svg.setAttribute('height', wrapper.scrollHeight);
+            
+            let pathD = "";
+            let prevX = 0;
+            let prevY = 0;
+            
+            for(let i=0; i<count; i++) {
+                const dot = document.getElementById(`trail-dot-${i}`);
+                if(!dot) continue;
+                
+                // Posição relativa ao wrapper
+                const rect = dot.getBoundingClientRect();
+                const wrapRect = wrapper.getBoundingClientRect();
+                
+                const x = rect.left - wrapRect.left + (rect.width / 2);
+                const y = rect.top - wrapRect.top + (rect.height / 2) + wrapper.scrollTop;
+                
+                if(i === 0) {
+                    pathD += `M ${x} ${y} `;
+                } else {
+                    // Smooth curve using cubic bezier
+                    // Control points slightly offset vertically
+                    const cp1x = prevX;
+                    const cp1y = prevY + (y - prevY) / 2;
+                    const cp2x = x;
+                    const cp2y = prevY + (y - prevY) / 2;
+                    pathD += `C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${x} ${y} `;
+                }
+                
+                prevX = x;
+                prevY = y;
+            }
+            
+            svg.innerHTML = `<path d="${pathD}" fill="none" stroke="rgba(170, 0, 255, 0.5)" stroke-width="3" stroke-dasharray="10 5" stroke-linecap="round"/>
+                             <path d="${pathD}" fill="none" stroke="rgba(200, 50, 255, 0.8)" stroke-width="1" />`;
+        }
+
+        function closeWeeklyReport() {
+            document.getElementById('weekly-report-container').style.display = 'none';
+            document.getElementById('weekly-report-container').classList.remove('active');
+        }
+
+        // Lógica de filtro de categorias
+        const hiddenCategories = new Set();
+
+        function toggleCategory(category, toggleElement) {
+            toggleElement.classList.toggle('active');
+            if (toggleElement.classList.contains('active')) {
+                hiddenCategories.delete(category);
+            } else {
+                hiddenCategories.add(category);
+            }
+            
+            // Filter news feed
+            const cards = document.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                const tagElement = card.querySelector('.news-tag');
+                if (tagElement) {
+                    const tag = tagElement.innerText.trim();
+                    if (hiddenCategories.has(tag)) {
+                        card.style.display = 'none';
+                    } else {
+                        card.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        let p_time = 0;
+
+        function animateAllWaves() {
+            p_time += 0.05;
+            
+            // Pega as notícias lidas
+            const readNewsItems = newsData.filter(news => news.read);
+            
+            // Gera uma onda senoidal perfeitamente orgânica contínua (estética Wavy)
+            function generateContinuousWavyPath(freq, speed, amp, phase) {
+                let d = `M 0 40`; // Base no meio
+                for (let x = 0; x <= 300; x += 5) {
+                    let signal = Math.sin(x * freq + p_time * speed + phase) * amp;
+                    let y = 40 + signal; 
+                    d += ` L ${x} ${y}`;
+                }
+                return d;
+            }
+            
+            function generatePathsFromNews(newsArray) {
+                let paths = '';
+                if (!newsArray || newsArray.length === 0) {
+                    paths = `<path d="M 0 40 L 300 40" fill="none" stroke="rgba(0,240,255,0.4)" stroke-width="3" style="filter: drop-shadow(0 0 3px rgba(0,240,255,0.5));"/>`;
+                } else {
+                    newsArray.forEach((news, idx) => {
+                        const color = news.color;
+                        const newsLength = news.body ? news.body.length : (news.length || 1000);
+                        const sizeFactor = Math.min(Math.max(newsLength / 800, 0.5), 3.0); 
+                        const freq = 0.012 + (idx * 0.004);
+                        const speed = 0.7 + (idx % 2 === 0 ? 0.2 : -0.1) * sizeFactor; 
+                        const amp = 5 + (sizeFactor * 6);
+                        const phase = idx * 15;
+                        const pathD = generateContinuousWavyPath(freq, speed, amp, phase);
+                        const pulse = 0.6 + 0.4 * Math.sin(p_time * 1.5 + idx * 2);
+                        const strokeWidth = 1 + (sizeFactor * 0.5 * pulse);
+                        const opacity = 0.3 + (0.5 * pulse);
+                        paths += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" opacity="${opacity}" filter="url(#underwater-glow)" style="mix-blend-mode: screen;" />`;
+                    });
+                }
+                return paths;
+            }
+
+            // Atualiza a wave do usuário
+            const profileWaveSvg = document.getElementById('profile-wave-svg');
+            if(profileWaveSvg) profileWaveSvg.innerHTML = generatePathsFromNews(readNewsItems);
+            
+            // Atualiza as waves independentes dos amigos
+            const friendWaves = document.querySelectorAll('.friend-wave-svg');
+            friendWaves.forEach(svg => {
+                const waveId = svg.id;
+                let friendNews = [];
+                if (window.friendsData && window.friendsData[waveId]) {
+                    friendNews = window.friendsData[waveId].news || [];
+                }
+                svg.innerHTML = generatePathsFromNews(friendNews);
+            });
+
+            requestAnimationFrame(animateAllWaves);
+        }
+        animateAllWaves();
+
+        // Lógica de arrastar para navegar (Drag-to-Pan)
+        const ecoEnv = document.getElementById('ecosystems-env');
+        let isDragging = false;
+        let startX, startY, startScrollLeft, startScrollTop;
+
+        ecoEnv.addEventListener('mousedown', (e) => {
+            // Se clicar no tooltip, não inicializa o drag
+            if(e.target.closest('#eco-overlay-info')) return;
+            isDragging = true;
+            startX = e.pageX - ecoEnv.offsetLeft;
+            startY = e.pageY - ecoEnv.offsetTop;
+            startScrollLeft = ecoEnv.scrollLeft;
+            startScrollTop = ecoEnv.scrollTop;
+        });
+
+        ecoEnv.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        ecoEnv.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        ecoEnv.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - ecoEnv.offsetLeft;
+            const y = e.pageY - ecoEnv.offsetTop;
+            const walkX = (x - startX) * 1.5;
+            const walkY = (y - startY) * 1.5;
+            ecoEnv.scrollLeft = startScrollLeft - walkX;
+            ecoEnv.scrollTop = startScrollTop - walkY;
+        });
+
+        // Lógica de Zoom via scroll do mouse
+        const ecoZoomContainer = document.getElementById('eco-zoom-container');
+        const ecoSvg = document.getElementById('eco-svg');
+        ecoEnv.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomSpeed = 0.08;
+            const delta = e.deltaY < 0 ? zoomSpeed : -zoomSpeed;
+            const newZoom = Math.min(Math.max(0.4, currentZoom + delta), 2.5); // Limite de 0.4x até 2.5x
+            
+            const rect = ecoEnv.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            const scaleChange = newZoom / currentZoom;
+            
+            currentZoom = newZoom;
+            
+            // Alterando width e height físicos ajusta o scrollWidth do container no navegador perfeitamente!
+            const newSize = 1200 * currentZoom;
+            ecoZoomContainer.style.width = newSize + 'px';
+            ecoZoomContainer.style.height = newSize + 'px';
+            ecoSvg.setAttribute('width', newSize);
+            ecoSvg.setAttribute('height', newSize);
+
+            // Ajusta o scroll para manter o mouse na mesma posição relativa
+            ecoEnv.scrollLeft = (ecoEnv.scrollLeft + mouseX) * scaleChange - mouseX;
+            ecoEnv.scrollTop = (ecoEnv.scrollTop + mouseY) * scaleChange - mouseY;
+        });
+
+        // Listener global no ecossistema para fechar o tooltip ao clicar fora
+        document.getElementById('ecosystems-env').addEventListener('click', (e) => {
+            if (!e.target.closest('#eco-overlay-info')) {
+                closeEcoInfo();
+            }
+        });
+
+        function generateIrregularPebblePath(cx, cy, r) {
+            let path = '';
+            const points = 7;
+            for(let i = 0; i < points; i++) {
+                const angle = (i / points) * Math.PI * 2;
+                const jitter = r * 0.4; 
+                const rad = r + (Math.random() * jitter * 2 - jitter);
+                const px = cx + Math.cos(angle) * rad;
+                const py = cy + Math.sin(angle) * rad;
+                if(i === 0) path += `M ${px} ${py}`;
+                else path += ` L ${px} ${py}`;
+            }
+            path += ' Z';
+            return path;
+        }
+
+        function renderEcosystemPebbles(friendName = null) {
+            const regionsGroup = document.getElementById('regions-group');
+            const ripplesGroup = document.getElementById('ripples-group');
+            const pebblesGroup = document.getElementById('pebbles-group');
+            const ecoEmptyState = document.getElementById('eco-empty-state');
+            
+            regionsGroup.innerHTML = '';
+            ripplesGroup.innerHTML = '';
+            pebblesGroup.innerHTML = '';
+            
+            let hasReadNews = false;
+            const activeCategories = {};
+            newsData.forEach(n => { n.pebbleData = null; });
+            
+            let dataToRender = [];
+            
+            if (friendName) {
+                // Find friend by name
+                let friendData = null;
+                for (const data of Object.values(window.friendsData || {})) {
+                    if (data.name === friendName) {
+                        friendData = data;
+                        break;
+                    }
+                }
+                
+                if (friendData) {
+                    const friendColors = ['#aa00ff', '#ff003c', '#00ffaa', '#ffaa00', '#00f0ff'];
+                    const categories = Object.keys(categoryCenters);
+                    
+                    for (let i = 0; i < friendData.score; i++) {
+                        dataToRender.push({
+                            read: true,
+                            categoria: categories[Math.floor(Math.random() * categories.length)],
+                            color: friendColors[Math.floor(Math.random() * friendColors.length)],
+                            headline: 'Notícia lida por ' + friendName
+                        });
+                    }
+                }
+            } else {
+                dataToRender = newsData;
+            }
+
+            dataToRender.forEach((news, idx) => {
+                if(news.read) {
+                    hasReadNews = true;
+                    if (!categoryCenters[news.categoria]) {
+                        const idx = Object.keys(categoryCenters).length;
+                        // Gera posições em espiral/círculo para novas categorias
+                        categoryCenters[news.categoria] = {
+                            x: 600 + Math.cos(idx * 2.4) * (250 + (idx % 2) * 100),
+                            y: 600 + Math.sin(idx * 2.4) * (250 + (idx % 2) * 100)
+                        };
+                    }
+                    const center = categoryCenters[news.categoria];
+                    
+                    // Recalcula pebbles que ficaram presos no (150, 400) do fallback antigo
+                    if (news.pebbleData && Math.abs(news.pebbleData.cx - 150) < 150 && Math.abs(news.pebbleData.cy - 400) < 150 && center.x !== 150) {
+                        news.pebbleData = null; 
+                    }
+                    
+                    if(!activeCategories[news.categoria]) {
+                        activeCategories[news.categoria] = {
+                            center: center,
+                            color: news.color,
+                            count: 0,
+                            points: []
+                        };
+                    }
+                    activeCategories[news.categoria].count++;
+                    
+                    lastReadCenter = center;
+
+                    if(!news.pebbleData) {
+                        const radiusLimit = Math.max(10, 70 + (activeCategories[news.categoria].count * 15) - 30);
+                        const angle = Math.random() * Math.PI * 2;
+                        const dist = Math.random() * radiusLimit;
+                        const offsetX = Math.cos(angle) * dist;
+                        const offsetY = Math.sin(angle) * dist;
+                        const cx = center.x + offsetX;
+                        const cy = center.y + offsetY;
+                        const size = 4 + Math.random() * 2;
+                        news.pebbleData = {
+                            cx: cx,
+                            cy: cy,
+                            size: size,
+                            pathD: generateIrregularPebblePath(cx, cy, size)
+                        };
+                    }
+
+                    const cx = news.pebbleData.cx;
+                    const cy = news.pebbleData.cy;
+                    
+                    activeCategories[news.categoria].points.push({x: cx, y: cy});
+
+                    for(let r = 1; r <= 3; r++) {
+                        const ripple = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        ripple.setAttribute('cx', cx);
+                        ripple.setAttribute('cy', cy);
+                        ripple.setAttribute('r', 10);
+                        ripple.setAttribute('fill', 'none');
+                        ripple.setAttribute('stroke', news.color);
+                        ripple.setAttribute('stroke-width', '1.5');
+                        ripple.classList.add('eco-ripple');
+                        ripple.style.animationDelay = `-${(r-1) * 8.33}s`;
+                        ripplesGroup.appendChild(ripple);
+                    }
+
+                    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    g.style.cursor = 'pointer';
+                    g.onclick = (e) => {
+                        e.stopPropagation();
+                        showEcoInfo(idx, news, cx, cy);
+                    };
+
+                    const pebble = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    pebble.setAttribute('d', news.pebbleData.pathD);
+                    pebble.setAttribute('fill', news.color);
+                    pebble.setAttribute('filter', 'url(#underwater-glow)');
+                    pebble.classList.add('eco-pebble');
+
+                    g.appendChild(pebble);
+                    pebblesGroup.appendChild(g);
+                }
+            });
+
+            Object.keys(activeCategories).forEach(cat => {
+                const info = activeCategories[cat];
+                const region = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                region.setAttribute('cx', info.center.x);
+                region.setAttribute('cy', info.center.y);
+                const regionRadius = 70 + (info.count * 15);
+                const gradId = 'grad-' + cat.replace(/[^a-zA-Z0-9]/g, '');
+                let defs = document.querySelector('#eco-svg defs');
+                if(!document.getElementById(gradId)) {
+                    const rg = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+                    rg.setAttribute('id', gradId);
+                    const s1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    s1.setAttribute('offset', '0%');
+                    s1.setAttribute('stop-color', info.color);
+                    s1.setAttribute('stop-opacity', '0.25');
+                    const s2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                    s2.setAttribute('offset', '100%');
+                    s2.setAttribute('stop-color', info.color);
+                    s2.setAttribute('stop-opacity', '0');
+                    rg.appendChild(s1); rg.appendChild(s2);
+                    if(defs) defs.appendChild(rg);
+                }
+                region.setAttribute('r', regionRadius);
+                region.setAttribute('fill', 'url(#' + gradId + ')');
+                regionsGroup.appendChild(region);
+
+                // Conector (fio) orgânico fraco entre pedras da mesma categoria
+                if(info.points.length > 1) {
+                    let d = `M ${info.points[0].x} ${info.points[0].y}`;
+                    for(let i = 1; i < info.points.length; i++) {
+                        d += ` L ${info.points[i].x} ${info.points[i].y}`;
+                    }
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    line.setAttribute('d', d);
+                    line.setAttribute('stroke', info.color);
+                    line.setAttribute('stroke-width', '1.5');
+                    line.setAttribute('fill', 'none');
+                    line.setAttribute('opacity', '0.25');
+                    regionsGroup.appendChild(line);
+                }
+
+                // Título da Categoria
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', info.center.x);
+                label.setAttribute('y', info.center.y - regionRadius - 30);
+                label.setAttribute('fill', info.color);
+                label.setAttribute('class', 'eco-region-title');
+                label.textContent = cat.toUpperCase();
+                regionsGroup.appendChild(label);
+            });
+
+            // Mostra ou esconde o empty state dependendo de termos conteúdo lido
+            if (!hasReadNews) {
+                ecoEmptyState.classList.remove('hidden');
+            } else {
+                ecoEmptyState.classList.add('hidden');
+            }
+        }
+
+        function showEcoInfo(index, news, cx, cy) {
+            activeEcoNewsIndex = index;
+            const infoBox = document.getElementById('eco-overlay-info');
+            
+            // Posicionar o balão flutuante sobre a pedra
+            infoBox.style.left = `${cx}px`;
+            infoBox.style.top = `${cy}px`;
+
+            document.getElementById('eco-info-category').innerText = news.categoria;
+            document.getElementById('eco-info-category').style.color = news.color;
+            document.getElementById('eco-info-title').innerText = news.headline;
+            
+            infoBox.classList.add('active');
+        }
+
+        function closeEcoInfo() {
+            activeEcoNewsIndex = null;
+            document.getElementById('eco-overlay-info').classList.remove('active');
+        }
+
+        function reviewEcosystemNews() {
+            if(activeEcoNewsIndex !== null) {
+                closeEcosystems();
+                openNews(activeEcoNewsIndex);
+            }
+        }
+        // ------------------------
+
+        // Lógica de ocultar o menu-icon no scroll down do feed
+        const newsFeedElement = document.getElementById('news-feed');
+        const menuIcon = document.querySelector('.menu-icon');
+        let lastScrollTop = 0;
+
+        newsFeedElement.addEventListener('scroll', () => {
+            const scrollTop = newsFeedElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // Scroll Down
+                menuIcon.classList.add('hidden');
+            } else {
+                // Scroll Up
+                menuIcon.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Controle do scroll para a barra de progresso
+        const newsDetailElement = document.getElementById('news-detail');
+        const readingProgressElement = document.getElementById('reading-progress');
+        
+        newsDetailElement.addEventListener('scroll', () => {
+            const scrollTop = newsDetailElement.scrollTop;
+            const scrollHeight = newsDetailElement.scrollHeight - newsDetailElement.clientHeight;
+            // Garantir que não divída por 0 (caso o texto seja curto)
+            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 100;
+            
+            readingProgressElement.style.width = progress + '%';
+            
+            // Ativa o botão se chegou ao final (95% para margem de segurança)
+            const btn = document.getElementById('mark-read-btn');
+            if (btn && progress > 95) {
+                btn.classList.add('active');
+                btn.innerText = "Concluída ✔";
+            }
+        });
+
+        function openNews(index) {
+            currentNewsIndex = index;
+            // Dispara a descida lenta e wavy
+            isAiActive = true;
+            document.getElementById('news-feed').classList.add('hidden');
+            document.getElementById('parabolic-svg').classList.add('ai-active');
+            
+            // Zera a barra de progresso
+            readingProgressElement.style.width = '0%';
+            document.getElementById('progress-container').classList.add('active');
+            
+            // Inicia o degradê e escurecimento IMEDIATAMENTE e gradualmente (1.8s)
+            document.getElementById('news-bg-overlay').classList.add('active');
+            
+            // Ativa o X do top bar
+            document.getElementById('top-bar-close').classList.add('active');
+            
+            // Injeta o conteúdo dinamicamente
+            document.getElementById('detail-headline').innerHTML = newsData[index].headline;
+            document.getElementById('detail-body').innerHTML = newsData[index].body;
+
+            // Substituir o onclick do botão de concluir para marcar como lida
+            const markBtn = document.getElementById('mark-read-btn');
+            if (markBtn) {
+                // Se já estiver lida antes, podemos deixar marcado
+                if(newsData[index].read) {
+                    markBtn.classList.add('active');
+                    markBtn.innerText = "Concluída ✔";
+                }
+                
+                markBtn.onclick = function() {
+                    if(currentNewsIndex !== null) {
+                        if(!newsData[currentNewsIndex].read) {
+                            newsData[currentNewsIndex].read = true;
+                            if(typeof incrementUserScore === 'function') incrementUserScore();
+                        }
+                        renderEcosystemPebbles(); // Atualiza o ecossistema assim que uma notícia for lida
+                    }
+                    closeNews();
+                };
+            }
+
+            // Reset do scroll
+            newsDetailElement.scrollTop = 0;
+
+            // Aguarda a parábola cair completamente antes de mostrar apenas o TEXTO
+            setTimeout(() => {
+                newsDetailElement.classList.add('active');
+            }, 1800);
+        }
+
+        let readingWeekly = false;
+
+        function readWeeklySection(index) {
+            readingWeekly = true;
+            document.getElementById('weekly-report-container').style.display = 'none';
+            
+            isAiActive = true;
+            document.getElementById('parabolic-svg').classList.add('ai-active');
+            readingProgressElement.style.width = '0%';
+            document.getElementById('progress-container').classList.add('active');
+            document.getElementById('news-bg-overlay').classList.add('active');
+            document.getElementById('top-bar-close').classList.add('active');
+            
+            document.getElementById('detail-headline').innerHTML = window.weeklyReportData[index].section;
+            document.getElementById('detail-body').innerHTML = window.weeklyReportData[index].content;
+            
+            const markBtn = document.getElementById('mark-read-btn');
+            if(markBtn) markBtn.style.display = 'none';
+            
+            newsDetailElement.scrollTop = 0;
+            
+            setTimeout(() => {
+                newsDetailElement.classList.add('active');
+            }, 600); // Uma abertura mais rápida pois já estamos num ambiente escuro
+        }
+
+        function closeNews() {
+            // Esconde o texto e a barra de progresso
+            newsDetailElement.classList.remove('active');
+            document.getElementById('progress-container').classList.remove('active');
+            document.getElementById('top-bar-close').classList.remove('active');
+            
+            if (readingWeekly) {
+                setTimeout(() => {
+                    document.getElementById('weekly-report-container').style.display = 'block';
+                    document.getElementById('news-bg-overlay').classList.remove('active');
+                    document.getElementById('parabolic-svg').classList.remove('ai-active');
+                    isAiActive = false;
+                    readingWeekly = false;
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('news-bg-overlay').classList.remove('active');
+                    document.getElementById('news-feed').classList.remove('hidden');
+                    document.getElementById('parabolic-svg').classList.remove('ai-active');
+                    isAiActive = false;
+                }, 300);
+            }
+        }
+        
+        // --- GERADOR DE LINHAS ABSTRATAS (FUNDO) ---
+        function initAbstractBackground() {
+            const group1 = document.getElementById('abstract-lines-group');
+            const group2 = document.getElementById('abstract-lines-group-2');
+            
+            const numLines = 30;
+            
+            for(let i=0; i<numLines; i++) {
+                let path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                let path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                group1.appendChild(path1);
+                group2.appendChild(path2);
+            }
+            
+            let timeAbs = 0;
+            
+            function renderAbstract() {
+                timeAbs += 0.005;
+                const paths1 = group1.children;
+                const paths2 = group2.children;
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                
+                for(let i=0; i<numLines; i++) {
+                    let offset = i * 6; // Espaçamento entre as linhas
+                    
+                    // Forma 1 (Canto Inferior Esquerdo - Roxo)
+                    let p1 = `M ${-100} ${height - 100 + offset}`;
+                    p1 += ` Q ${width*0.2} ${height - 400 + Math.sin(timeAbs + i*0.1)*100}, ${width*0.4} ${height - 150 + offset}`;
+                    p1 += ` T ${width*0.6} ${height + 100}`;
+                    paths1[i].setAttribute('d', p1);
+                    
+                    // Forma 2 (Canto Superior Direito - Azul)
+                    let p2 = `M ${width*0.4} ${-100 + offset}`;
+                    p2 += ` Q ${width*0.8} ${200 + Math.cos(timeAbs*0.8 + i*0.08)*150}, ${width} ${100 + offset}`;
+                    p2 += ` T ${width + 200} ${400}`;
+                    paths2[i].setAttribute('d', p2);
+                }
+                
+                requestAnimationFrame(renderAbstract);
+            }
+            
+            renderAbstract();
+        }
+        
+        // Inicia o background abstrato após carregar a página
+        window.addEventListener('DOMContentLoaded', initAbstractBackground);
+    </script>
+
+    <!-- Custom Modal -->
+    <div id="custom-modal" class="custom-modal-overlay">
+        <div class="custom-modal-box">
+            <h3 class="custom-modal-title" id="custom-modal-title">Título</h3>
+            <input type="text" class="custom-modal-input" id="custom-modal-input" placeholder="Digite aqui..." autocomplete="off">
+            <div class="custom-modal-actions">
+                <button class="custom-modal-btn cancel" onclick="closeCustomModal()">Cancelar</button>
+                <button class="custom-modal-btn confirm" id="custom-modal-confirm">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM MODALS -->
+    <!-- Custom Select Modal -->
+    <div id="custom-select-modal" class="custom-modal-overlay" style="display: none;" onclick="window.closeCustomSelect()">
+        <div class="custom-modal-content" onclick="event.stopPropagation()">
+            <h3 id="custom-select-title">Selecione</h3>
+            <div id="custom-select-options" class="custom-select-list"></div>
+        </div>
+    </div>
+
+    <!-- Custom Color Picker Modal -->
+    <div id="custom-color-modal" class="custom-modal-overlay" style="display: none;" onclick="window.closeCustomColor()">
+        <div class="custom-modal-content" onclick="event.stopPropagation()">
+            <h3>Escolha uma cor</h3>
+            <div class="color-palette">
+                <div class="color-swatch" style="background: #00f0ff;" onclick="selectColor('#00f0ff')"></div>
+                <div class="color-swatch" style="background: #00ffaa;" onclick="selectColor('#00ffaa')"></div>
+                <div class="color-swatch" style="background: #aaff00;" onclick="selectColor('#aaff00')"></div>
+                <div class="color-swatch" style="background: #ffaa00;" onclick="selectColor('#ffaa00')"></div>
+                <div class="color-swatch" style="background: #ff003c;" onclick="selectColor('#ff003c')"></div>
+                <div class="color-swatch" style="background: #ff00aa;" onclick="selectColor('#ff00aa')"></div>
+                <div class="color-swatch" style="background: #aa00ff;" onclick="selectColor('#aa00ff')"></div>
+                <div class="color-swatch" style="background: #5500ff;" onclick="selectColor('#5500ff')"></div>
+                <div class="color-swatch" style="background: #0055ff;" onclick="selectColor('#0055ff')"></div>
+                <div class="color-swatch" style="background: #ffffff;" onclick="selectColor('#ffffff')"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
