@@ -72,7 +72,7 @@ def generate_weekly_report():
     print("Iniciando geração do Relatório Semanal...")
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     weekly_storage_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'weekly_news_storage.json')
-    report_output_file = os.path.join(root_dir, 'weekly_report.json')
+    report_output_file = os.path.join(root_dir, 'www', 'weekly_report.json')
     
     weekly_storage = []
     if os.path.exists(weekly_storage_file):
@@ -163,7 +163,7 @@ def generate_weekly_report():
         json.dump(final_report, f, indent=4, ensure_ascii=False)
         
     # 2. Sistema de Arquivamento Histórico (Memória)
-    archive_dir = os.path.join(root_dir, 'reports_archive')
+    archive_dir = os.path.join(root_dir, 'www', 'reports_archive')
     if not os.path.exists(archive_dir):
         os.makedirs(archive_dir)
         

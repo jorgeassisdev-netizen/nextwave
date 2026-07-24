@@ -180,7 +180,7 @@ def update_daily():
     daily_news = generate_news_with_gemini()
     
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    news_file = os.path.join(root_dir, 'news_data.json')
+    news_file = os.path.join(root_dir, 'www', 'news_data.json')
     weekly_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'weekly_news_storage.json')
     
     # 2. Atualizar o Feed Diário do Frontend
